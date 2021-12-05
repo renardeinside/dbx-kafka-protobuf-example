@@ -1,0 +1,9 @@
+{
+    "environments": {
+        "default": {
+            "profile": "fe-aws",
+            "workspace_dir": "/Shared/dbx/projects/dbx-kafka-protobuf-example",
+            "artifact_location": "dbfs:/dbx/dbx-kafka-protobuf-example"
+        }
+    }
+}
