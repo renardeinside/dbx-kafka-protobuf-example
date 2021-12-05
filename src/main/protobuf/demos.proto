@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+option java_package = "net.renarde.dbx";
+
+message DemoEvent {
+  required int64 timestamp = 1;
+  required string uuid = 2;
+  required int32 value = 3;
+}
