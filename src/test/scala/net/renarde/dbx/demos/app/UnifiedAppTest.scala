@@ -16,7 +16,6 @@ class UnifiedAppTest extends AnyFunSuite with Logging with KafkaSupport with Spa
     val baseConfig = ConfigFactory.parseString(
       s"""
          |KAFKA_BOOTSTRAP_SERVERS = "${kafka.bootstrapServers}"
-         |processor.env = "dev"
          |common.checkpointsLocation = "${testFileLocation}/checkpoints"
          |common.databaseLocation = "${testFileLocation}/db"
          |""".stripMargin)
@@ -33,9 +32,6 @@ class UnifiedAppTest extends AnyFunSuite with Logging with KafkaSupport with Spa
 
     val processor = ProcessorApp
     processor.main(Array.empty)
-
-    processor.query.processAllAvailable()
-    processor.query.stop()
 
     assert(
       spark.table(processor.outputTable.toString).count() === generator.testData.length

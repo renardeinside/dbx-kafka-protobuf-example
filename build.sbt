@@ -1,6 +1,6 @@
 name := "dbx-kafka-protobuf-example"
 
-version := "0.1"
+version := "0.0.1"
 
 scalaVersion := "2.12.10"
 
@@ -9,10 +9,10 @@ val testcontainersScalaVersion = "0.39.12"
 
 libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion % "provided"
 libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion % "provided"
-libraryDependencies += "org.apache.spark" % "spark-sql-kafka-0-10_2.12" % sparkVersion
-libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.11.0"
+libraryDependencies += "org.apache.spark" % "spark-sql-kafka-0-10_2.12" % sparkVersion % "provided"
 libraryDependencies += "io.delta" %% "delta-core" % "1.0.0" % "provided"
 
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.11.0"
 libraryDependencies += "com.typesafe" % "config" % "1.4.1"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test

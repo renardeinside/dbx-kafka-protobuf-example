@@ -1,0 +1,32 @@
+custom:
+  basic-cluster-props: &basic-cluster-props
+    spark_version: "9.1.x-scala2.12"
+    instance_pool_name: "dbx-pool"
+    aws_attributes:
+      instance_profile_name: !ENV ${INSTANCE_PROFILE_NAME}
+    spark_env_vars:
+      KAFKA_BOOTSTRAP_SERVERS: "{{secrets/dbx/kafkaBootstrapServers}}"
+  basic-static-cluster: &basic-static-cluster
+    new_cluster:
+      <<: *basic-cluster-props
+      num_workers: 1
+  libraries-config: &libraries-config
+    libraries:
+      - jar: "file://target/scala-2.12/dbx-kafka-protobuf-example-assembly-0.0.1.jar"
+
+environments:
+  default:
+    strict_path_adjustment_policy: true
+    jobs:
+      - name: "dbx-kafka-protobuf-example-generator"
+        <<:
+          - *basic-static-cluster
+          - *libraries-config
+        spark_jar_task:
+          main_class_name: "net.renarde.dbx.demos.app.GeneratorApp"
+      - name: "dbx-kafka-protobuf-example-processor"
+        <<:
+          - *basic-static-cluster
+          - *libraries-config
+        spark_jar_task:
+          main_class_name: "net.renarde.dbx.demos.app.ProcessorApp"

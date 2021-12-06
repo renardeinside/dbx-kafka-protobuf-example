@@ -58,11 +58,8 @@ object ProcessorApp extends GenericApp {
     .toTable(outputTable.toString)
 
 
-  appConfig.getOption("env") match {
-    case Some(value) => if (value != "dev") {
-      query.awaitTermination()
-    }
-  }
+  query.processAllAvailable()
+  query.stop()
 
   log.info("Processor app gracefully finished")
 

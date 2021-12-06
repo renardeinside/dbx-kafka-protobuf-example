@@ -17,3 +17,5 @@ spark-warehouse
 
 # local mlflow files
 mlruns/
+
+.env
