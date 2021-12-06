@@ -7,6 +7,12 @@ import scala.collection.JavaConverters._
 
 object Helpers {
 
+  case class TableName(db: String, table: String) {
+    override def toString: String = {
+      s"${this.db}.${this.table}"
+    }
+  }
+
   private val renderOptions = ConfigRenderOptions
     .defaults()
     .setOriginComments(false)
@@ -24,14 +30,22 @@ object Helpers {
   }
 
   implicit class KafkaReaderWithOptions(input: DataStreamReader) {
-    def withKafkaOptions(implicit config: Config): DataStreamReader = {
-      input.format("kafka").options(config.getConfig("inputs").asMap)
+    def withKafkaOptions(kafkaConfig: Config): DataStreamReader = {
+      input.format("kafka").options(kafkaConfig.asMap)
     }
   }
 
   implicit class KafkaWriterWithOptions[T](input: DataStreamWriter[T]) {
-    def withKafkaOptions(implicit config: Config): DataStreamWriter[T] = {
-      input.format("kafka").options(config.getConfig("inputs").asMap)
+    def withKafkaOptions(kafkaConfig: Config): DataStreamWriter[T] = {
+      input.format("kafka").options(kafkaConfig.asMap)
+    }
+  }
+
+  implicit class OptionalString(val config: Config) extends AnyVal {
+    def getOption(path: String): Option[String] = if (config.hasPath(path)) {
+      Some(config.getString(path))
+    } else {
+      None
     }
   }
 }
