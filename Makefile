@@ -19,12 +19,16 @@ add-secrets:
 		--scope=dbx --key=kafkaBootstrapServers \
 		--string-value=$(KAFKA_BOOTSTRAP_SERVERS_TO_SECRETS)
 
-launch-generator: dev-deploy
+dev-launch-generator: dev-deploy
 	dbx launch \
 		--job=dbx-kafka-protobuf-example-generator \
 		--as-run-submit --trace
 
-launch-processor: dev-deploy
+dev-launch-processor: dev-deploy
 	dbx launch \
 		--job=dbx-kafka-protobuf-example-processor \
 		--as-run-submit --trace
+
+
+jobs-deploy: build
+	dbx deploy --no-package --no-rebuild --deployment-file=conf/deployment.yaml
